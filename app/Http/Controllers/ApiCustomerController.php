@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerRosource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ApiCustomerController extends Controller
      */
     public function index()
     {
-        //
+        return CustomerRosource::collection(Customer::all());
     }
 
     /**
