@@ -16,7 +16,7 @@ class CustomerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'tel' => $this->faker->phoneNumber(),
-            'is_favourite' => $this->faker->rand(0, 1)
+            'is_favourite' => rand(0, 1)
         ];
     }
 }
