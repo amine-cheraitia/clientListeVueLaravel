@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $casts = [
-        'is_favourite' => 'Boolean'
+        'is_favourite' => 'boolean'
     ];
 
     protected $fillable = ['name', 'tel', 'is_favourite'];
