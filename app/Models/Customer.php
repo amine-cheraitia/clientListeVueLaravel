@@ -4,8 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Customer extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'is_favourite' => 'Boolean'
+    ];
+
+    protected $fillable = ['name', 'tel', 'is_favourite'];
 }
