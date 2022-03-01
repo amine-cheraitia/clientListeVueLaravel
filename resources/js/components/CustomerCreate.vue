@@ -1,12 +1,19 @@
 <template>
+    <div v-if="erreur">aze</div>
     <form action="" class="space-y-6" @submit.prevent="submitForm">
         <div>
             <label for="name" class="block">Customer's name</label>
             <input type="text" id="name" v-model="form.name" />
+            <div v-if="errorsName" class="text-sm text-red-500">
+                {{ errorsName }}
+            </div>
         </div>
         <div>
             <label for="tel" class="block">Customer's phone number</label>
             <input type="text" id="tel" v-model="form.tel" />
+            <div v-if="errorsTel" class="text-sm text-red-500">
+                {{ errorsTel }}
+            </div>
         </div>
         <div>
             <label for="is_favourite" class="block">Favori ?</label>
@@ -33,6 +40,9 @@ export default {
                 tel: null,
                 is_favourite: false,
             },
+            errorsName: "",
+            errorsTel: "",
+            erreur: false,
         };
     },
     methods: {
@@ -45,9 +55,22 @@ export default {
                 tel: this.form.tel,
                 is_favourite: this.form.is_favourite,
             }); */
-            await axios.post("/api/customers", formdata);
-
-            router.push({ name: "customers.index" });
+            try {
+                await axios.post("/api/customers", formdata);
+                await router.push({ name: "customers.index" });
+            } catch (error) {
+                this.erreur = true;
+                const Err = error.response.data.errors;
+                /*                 for (const key in Err) {
+                    this.errorsName = Err["name"];
+                    this.errorsTel = Err["tel"];
+                } */
+                this.errorsName = Err.name[0];
+                this.errorsTel = Err.tel[0];
+                console.log(this.errorsName);
+                /*                 this.errors.name = error.response.data.errors.name[0];
+                this.errors.tel = error.response.data.errors.tel[0]; */
+            }
         },
     },
     props: {},
