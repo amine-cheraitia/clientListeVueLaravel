@@ -1,5 +1,4 @@
 <template>
-    <div v-if="erreur">aze</div>
     <form action="" class="space-y-6" @submit.prevent="submitForm">
         <div>
             <label for="name" class="block">Customer's name</label>
@@ -22,6 +21,9 @@
                 id="is_favourite"
                 v-model="form.is_favourite"
             />
+            <div v-if="errorsFav" class="text-sm text-red-500">
+                {{ errorsFav }}
+            </div>
         </div>
         <button type="submit" class="bg-blue-500 px-2 py-1 text-white rounded">
             Create Customer
@@ -36,13 +38,14 @@ export default {
     data() {
         return {
             form: {
-                name: null,
-                tel: null,
+                name: "",
+                tel: "",
                 is_favourite: false,
             },
             errorsName: "",
             errorsTel: "",
             erreur: false,
+            errorsFav: "",
         };
     },
     methods: {
@@ -67,6 +70,7 @@ export default {
                 } */
                 this.errorsName = Err.name[0];
                 this.errorsTel = Err.tel[0];
+                this.errorsFav = Err.is_favourite[0];
                 console.log(this.errorsName);
                 /*                 this.errors.name = error.response.data.errors.name[0];
                 this.errors.tel = error.response.data.errors.tel[0]; */
