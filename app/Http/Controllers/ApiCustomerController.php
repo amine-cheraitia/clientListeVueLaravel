@@ -46,7 +46,8 @@ class ApiCustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        /* return CustomerRosource::collection(Customer::whereId($customer->id)->get()); */
+        return CustomerRosource::make($customer);
     }
 
     /**
@@ -58,7 +59,13 @@ class ApiCustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'tel' => 'required',
+            'is_favourite' => 'required|boolean',
+        ]);
+
+        $customer->update($request->only(['name', 'tel', 'is_favourite']));
     }
 
     /**

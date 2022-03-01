@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import CustomerIndex from "../components/CustomerIndex.vue";
 import CustomerCreate from "../components/CustomerCreate.vue";
+import CustomerEdit from "../components/CustomerEdit.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,6 +15,12 @@ const router = createRouter({
             path: "/customers/create",
             name: "customers.create",
             component: CustomerCreate,
+        },
+        {
+            path: "/customers/:id/edit",
+            name: "customers.edit",
+            props: true,
+            component: CustomerEdit,
         },
     ],
 });

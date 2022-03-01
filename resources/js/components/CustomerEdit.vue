@@ -1,15 +1,15 @@
 <template>
-    <form action="" class="space-y-6" @submit.prevent="submitForm">
+    <form action="" class="space-y-6" @submit.prevent="saveForm">
         <div>
             <label for="name" class="block">Customer's name</label>
-            <input type="text" id="name" v-model="form.name" />
+            <input type="text" id="name" v-model="customer.name" />
             <div v-if="errorsName" class="text-sm text-red-500">
                 {{ errorsName }}
             </div>
         </div>
         <div>
             <label for="tel" class="block">Customer's phone number</label>
-            <input type="text" id="tel" v-model="form.tel" />
+            <input type="text" id="tel" v-model="customer.tel" />
             <div v-if="errorsTel" class="text-sm text-red-500">
                 {{ errorsTel }}
             </div>
@@ -19,14 +19,14 @@
             <input
                 type="checkbox"
                 id="is_favourite"
-                v-model="form.is_favourite"
+                v-model="customer.is_favourite"
             />
             <div v-if="errorsFav" class="text-sm text-red-500">
                 {{ errorsFav }}
             </div>
         </div>
         <button type="submit" class="bg-blue-500 px-2 py-1 text-white rounded">
-            Create Customer
+            Update Customer
         </button>
     </form>
 </template>
@@ -37,37 +37,28 @@ import router from "../router/index.js";
 export default {
     data() {
         return {
-            form: {
+            customer: {
                 name: "",
                 tel: "",
                 is_favourite: false,
             },
             errorsName: "",
             errorsTel: "",
-            erreur: false,
+
             errorsFav: "",
+
+            /* CustomerId: null, */
         };
     },
     methods: {
-        async submitForm() {
-            let formdata = { ...this.form };
-            /*  await console.log(k); */
-
-            /*             console.log({
-                name: this.form.name,
-                tel: this.form.tel,
-                is_favourite: this.form.is_favourite,
-            }); */
+        async saveForm() {
+            const data = { ...this.customer };
             try {
-                await axios.post("/api/customers", formdata);
+                await axios.put(`/api/customers/${this.id}`, data);
                 await router.push({ name: "customers.index" });
             } catch (error) {
-                this.erreur = true;
                 const Err = error.response.data.errors;
-                /*                 for (const key in Err) {
-                    this.errorsName = Err["name"];
-                    this.errorsTel = Err["tel"];
-                } */
+                console.log(Err);
 
                 if ("name" in Err) {
                     this.errorsName = Err.name[0];
@@ -80,13 +71,26 @@ export default {
                 if ("is_favourite" in Err) {
                     this.errorsFav = Err.is_favourite[0];
                 }
-                console.log(this.errorsName);
-                /*                 this.errors.name = error.response.data.errors.name[0];
-                this.errors.tel = error.response.data.errors.tel[0]; */
             }
         },
+        async getCustomer() {
+            const response = await axios.get(`/api/customers/${this.id}`);
+            this.customer.name = response.data.data.name;
+            this.customer.tel = response.data.data.tel;
+            this.customer.is_favourite = response.data.data.is_favourite;
+            /* console.log(response.data.data[0]); */
+        },
     },
-    props: {},
+    created() {
+        this.getCustomer();
+    },
+    props: {
+        id: {
+            /* required: true,
+            type: String,
+ */
+        },
+    },
 };
 </script>
 

@@ -88,10 +88,15 @@
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                                 >
-                                    <a
+                                    <!--                            <a
                                         href="#"
                                         class="text-indigo-600 hover:text-indigo-900"
                                         >Edit</a
+                                    > -->
+                                    <router-link
+                                        class="text-indigo-600 hover:text-indigo-900"
+                                        :to="customerEdit(customer.id)"
+                                        >Edit</router-link
                                     >
                                 </td>
                             </tr>
@@ -114,6 +119,7 @@ export default {
             customers: null,
         };
     },
+
     methods: {
         async getCustomers() {
             let response = await axios.get("api/customers");
@@ -121,6 +127,9 @@ export default {
             this.customers = response.data.data;
             /* console.log(this.customers);
              */
+        },
+        customerEdit(id) {
+            return { name: "customers.edit", params: { id: id } };
         },
     },
     mounted() {
