@@ -98,6 +98,13 @@
                                         :to="customerEdit(customer.id)"
                                         >Edit</router-link
                                     >
+                                    |
+                                    <button
+                                        @click="deleteCustomer(customer.id)"
+                                        class="text-red-600 hover:text-red-900"
+                                    >
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
 
@@ -127,6 +134,10 @@ export default {
             this.customers = response.data.data;
             /* console.log(this.customers);
              */
+        },
+        async deleteCustomer(id) {
+            await axios.delete("api/customers/" + id);
+            console.log("customer a bien était suprimer");
         },
         customerEdit(id) {
             return { name: "customers.edit", params: { id: id } };
