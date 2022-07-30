@@ -137,12 +137,20 @@ export default {
         },
         async deleteCustomer(id) {
             await axios.delete("api/customers/" + id);
+            this.getCustomers();
             console.log("customer a bien était suprimer");
         },
         customerEdit(id) {
+            /*  console.log({ name: "customers.edit", params: { id: id } }); */
             return { name: "customers.edit", params: { id: id } };
         },
     },
+    /*     watch: {
+        customers() {
+            console.log("changed");
+            this.getCustomers();
+        },
+    }, */
     mounted() {
         this.getCustomers();
     },

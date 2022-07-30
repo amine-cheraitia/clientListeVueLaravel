@@ -25230,6 +25230,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     deleteCustomer: function deleteCustomer(id) {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
@@ -25239,9 +25241,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("api/customers/" + id);
 
               case 2:
+                _this2.getCustomers();
+
                 console.log("customer a bien était suprimer");
 
-              case 3:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -25250,6 +25254,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     customerEdit: function customerEdit(id) {
+      /*  console.log({ name: "customers.edit", params: { id: id } }); */
       return {
         name: "customers.edit",
         params: {
@@ -25258,6 +25263,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }
   },
+
+  /*     watch: {
+      customers() {
+          console.log("changed");
+          this.getCustomers();
+      },
+  }, */
   mounted: function mounted() {
     this.getCustomers();
   }
